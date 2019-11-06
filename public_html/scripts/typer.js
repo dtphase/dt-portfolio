@@ -10,40 +10,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var e = React.createElement;
 
-//Props: colour
-
-var Character = function (_React$Component) {
-  _inherits(Character, _React$Component);
-
-  function Character() {
-    _classCallCheck(this, Character);
-
-    return _possibleConstructorReturn(this, (Character.__proto__ || Object.getPrototypeOf(Character)).apply(this, arguments));
-  }
-
-  _createClass(Character, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'span',
-        { style: { color: this.props.colour } },
-        this.props.character
-      );
-    }
-  }]);
-
-  return Character;
-}(React.Component);
-
-var Typer = function (_React$Component2) {
-  _inherits(Typer, _React$Component2);
+var Typer = function (_React$Component) {
+  _inherits(Typer, _React$Component);
 
   function Typer(props) {
     _classCallCheck(this, Typer);
 
-    var _this2 = _possibleConstructorReturn(this, (Typer.__proto__ || Object.getPrototypeOf(Typer)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Typer.__proto__ || Object.getPrototypeOf(Typer)).call(this, props));
 
-    var code = '<body class="h-100">\n    <div class="container-fluid h-100">\n        <div class="row h-100">\n                <div class="col-sm h-50" id="site">col-sm</div>\n                <div class="col-sm h-50" id="code">\n    ';
+    var code = '<h1>Dtphase\'s Portfolio</h1>\n    <p>dtphase</p>\n    ';
     var characters = [];
     var colour = 'red';
     var blocks = code.split('');
@@ -85,38 +60,34 @@ var Typer = function (_React$Component2) {
       characters.push([blocks[i], colour]);
     }
     console.log(characters);
-    _this2.state = {
+    _this.state = {
       typed: [],
       toType: characters,
-      value: ''
+      value: '',
+      siteCode: []
     };
-    return _this2;
+    return _this;
   }
 
   _createClass(Typer, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      $(document).keypress(function (e) {
-        var _this3 = this;
-
-        (function () {
-          return _this3.handleKeyPress();
-        });
-      });
-    }
-  }, {
     key: 'handleClick',
     value: function handleClick() {
       document.getElementById("typingArea").focus();
     }
+  }, {
+    key: 'updateSite',
+    value: function updateSite() {}
   }, {
     key: 'handleKeyPress',
     value: function handleKeyPress() {
       var typingSpeed = 5;
       var nextCharacters = this.state.toType.slice(0, typingSpeed);
       var decorated = [];
+      var lineNumber = 0;
       for (var i = 0; i < nextCharacters.length; i++) {
         if (nextCharacters[i][0] == "\n") {
+          lineNumber++;
+          this.updateSite(lineNumber);
           decorated.push(React.createElement('br', null));
         } else if (nextCharacters[i][0] == " ") {
           decorated.push(String.fromCharCode(160));
@@ -140,21 +111,97 @@ var Typer = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this2 = this;
 
       return React.createElement(
         'div',
-        null,
-        this.state.typed,
-        React.createElement('input', { type: 'text', id: 'typingArea',
-          onKeyPress: function onKeyPress() {
-            return _this4.handleKeyPress();
-          },
-          onChange: function onChange() {
-            return _this4.handleChange();
-          },
-          value: this.state.value
-        })
+        { className: 'row h-100' },
+        React.createElement(
+          'div',
+          { className: 'col-sm h-50', id: 'site' },
+          'abc ',
+          this.state.siteCode
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-sm h-50', id: 'code' },
+          React.createElement(
+            'div',
+            { className: 'row', id: 'tab_bar' },
+            React.createElement(
+              'div',
+              { id: 'tab' },
+              React.createElement(
+                'span',
+                { className: 'tuscany' },
+                '<>'
+              ),
+              ' ',
+              React.createElement(
+                'strong',
+                null,
+                'index.php'
+              ),
+              ' \xA0',
+              React.createElement(
+                'a',
+                { href: '#', 'data-toggle': 'tooltip', title: 'Skip animation' },
+                'x'
+              )
+            )
+          ),
+          React.createElement(
+            'nav',
+            { 'aria-label': 'breadcrumb' },
+            React.createElement(
+              'ol',
+              { className: 'breadcrumb' },
+              React.createElement(
+                'li',
+                { className: 'breadcrumb-item' },
+                React.createElement(
+                  'a',
+                  { href: '#' },
+                  'public_html'
+                )
+              ),
+              React.createElement(
+                'li',
+                { className: 'breadcrumb-item' },
+                React.createElement(
+                  'a',
+                  { href: '#' },
+                  React.createElement(
+                    'span',
+                    { className: 'tuscany' },
+                    '<>'
+                  ),
+                  ' index.html'
+                )
+              ),
+              React.createElement(
+                'li',
+                { className: 'breadcrumb-item active', 'aria-current': 'page' },
+                'Library'
+              )
+            )
+          ),
+          React.createElement(
+            'div',
+            { id: 'typing' },
+            'abc',
+            this.state.typed,
+            React.createElement('input', { type: 'text', id: 'typingArea',
+              onKeyPress: function onKeyPress() {
+                return _this2.handleKeyPress();
+              },
+              onChange: function onChange() {
+                return _this2.handleChange();
+              },
+              value: this.state.value
+            })
+          )
+        )
       );
     }
   }]);
@@ -162,5 +209,5 @@ var Typer = function (_React$Component2) {
   return Typer;
 }(React.Component);
 
-var domContainer = document.querySelector('#typing');
+var domContainer = document.querySelector('#app');
 ReactDOM.render(e(Typer), domContainer);
